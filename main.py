@@ -227,7 +227,7 @@ if __name__ == "__main__":
 
     i = 0
     fps_timer = time.time()
-
+    lsttim = 0
     frames = []
 
     while True:
@@ -304,6 +304,9 @@ if __name__ == "__main__":
                         break
                 time.sleep(0.01)
         # log time
+        
+        print("helhelhel", i, mode, time.time() - lsttim)
+        lsttim = time.time()
         if i % 30 == 0:
             FPS = i / (time.time() - fps_timer)
             print(f"FPS: {FPS}")
