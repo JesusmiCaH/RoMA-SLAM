@@ -38,6 +38,8 @@ class FrameTracker:
         idx_f2k = idx_f2k[0]
         valid_match_k = valid_match_k[0]
 
+        print("ssaaaa", idx_f2k.shape)
+
         Qk = torch.sqrt(Qff[idx_f2k] * Qkf)
 
         # Update keyframe pointmap after registration (need pose)

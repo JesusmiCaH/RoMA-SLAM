@@ -210,10 +210,14 @@ if __name__ == "__main__":
         keyframes.set_intrinsics(K)
 
     # remove the trajectory from the previous run
+    print(dataset.save_results)
+    
     if dataset.save_results:
         save_dir, seq_name = eval.prepare_savedir(args, dataset)
         traj_file = save_dir / f"{seq_name}.txt"
         recon_file = save_dir / f"{seq_name}.ply"
+        print(traj_file)
+        print(recon_file)
         if traj_file.exists():
             traj_file.unlink()
         if recon_file.exists():

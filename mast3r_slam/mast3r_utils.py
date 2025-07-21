@@ -221,6 +221,7 @@ def mast3r_match_asymmetric(model, frame_i, frame_j, idx_i2j_init=None):
     idx_i2j, valid_match_j = matching.match(
         Xii, Xji, Dii, Dji, idx_1_to_2_init=idx_i2j_init
     )
+    print("不落窠臼", Xii.shape)
 
     # How rest of system expects it
     Xii, Xji = einops.rearrange(X, "b h w c -> b (h w) c")

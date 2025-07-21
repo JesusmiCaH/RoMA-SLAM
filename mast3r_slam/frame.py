@@ -13,6 +13,20 @@ class Mode(Enum):
     RELOC = 2
     TERMINATED = 3
 
+# class Frame:
+#     frame_id: int
+#     img: torch.Tensor
+#     img_shape: torch.Tensor
+#     img_true_shape: torch.Tensor
+#     uimg: torch.Tensor
+#     T_WC: lietorch.Sim3 = lietorch.Sim3.Identity(1)
+#     depth_map: torch.Tensor
+#     C: Optional[torch.Tensor] = None
+#     feat: Optional[torch.Tensor] = None
+#     pos: Optional[torch.Tensor] = None
+#     N: int = 0
+#     N_updates: int = 0
+#     K: Optional[torch.Tensor] = None 
 
 @dataclasses.dataclass
 class Frame:
