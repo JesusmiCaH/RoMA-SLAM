@@ -42,8 +42,8 @@ conda install pytorch==2.5.1 torchvision==0.20.1 torchaudio==2.5.1 pytorch-cuda=
 
 Clone the repo and install the dependencies.
 ```
-git clone https://github.com/rmurai0610/MASt3R-SLAM.git --recursive
-cd MASt3R-SLAM/
+git clone git@github.com:JesusmiCaH/EDGS-SLAM.git --recursive
+cd EDGS-SLAM/
 
 # if you've clone the repo without --recursive run
 # git submodule update --init --recursive
@@ -51,7 +51,8 @@ cd MASt3R-SLAM/
 pip install -e thirdparty/mast3r
 pip install -e thirdparty/in3d
 pip install --no-build-isolation -e .
- 
+pip install -e thirdparty/vggt
+
 
 # Optionally install torchcodec for faster mp4 loading
 pip install torchcodec==0.1
