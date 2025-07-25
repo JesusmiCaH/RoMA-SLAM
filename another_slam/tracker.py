@@ -8,6 +8,7 @@ from another_slam.geometry import *
 from mast3r_slam.nonlinear_optimizer import check_convergence, huber
 from mast3r_slam.config import config
 from mast3r_slam.mast3r_utils import mast3r_match_asymmetric
+from another_slam.geometry import SE3
 
 
 
@@ -17,20 +18,19 @@ class FrameTracker:
         self.model = model
         self.keyframes = frames
         self.device = device
-
+        self.match_model = load_roma()
         self.reset_idx_f2k()
 
     # Initialize with identity indexing of size (1,n)
     def reset_idx_f2k(self):
         self.idx_f2k = None
 
-
-
     def track(self, frame: Frame, intrinsic: Intrinsics):
+        print("亚雷", type(intrinsic))
         keyframe = self.keyframes.last_keyframe()   # last keyframe
         frame.T_WC = keyframe.T_WC
         kptsA_ndc, kptsB_ndc = get_matches(
-            frame, keyframe
+            self.match_model, frame, keyframe
         )
         h,w = frame.img_shape
         kptsA_x = torch.round((kptsA_ndc[:,0] + 1) * (w - 1) / 2).long()
@@ -46,9 +46,15 @@ class FrameTracker:
         depth_A = depth_A[kptsA_y[dd_valid], kptsA_x[dd_valid]]
         depth_B = depth_B[kptsB_y[dd_valid], kptsB_x[dd_valid]]
 
-        P3d_B = back_projection(prev, kptsB_ndc, depth_B, prev.world_view_transform)
-            
+        P3d_B = back_projection(keyframe, kptsB_ndc, intrinsic)
+        P3d_A = back_projection(frame, kptsA_ndc, intrinsic)
 
+        print("小逼崽子", P3d_A.shape)
+
+        R, t = ICP(P3d_A, P3d_B)
+        T = SE3(R, t)
+        frame.T_WC = keyframe.T_WC @ T.inverse() 
+            
         new_kf = False
         return (
             new_kf,

@@ -8,6 +8,7 @@ def load_roma(device = "cuda"):
     roma_model = roma_indoor(device=device)
     roma_model.upsample_preds = False
     roma_model.symmetric = False
+    return roma_model
 
 
 def get_warps(model, viewpointA, viewpointB):
@@ -24,9 +25,9 @@ def get_warps(model, viewpointA, viewpointB):
         )
     return warp, certainty_warp
 
-def get_matches(viewpointA, viewpointB, num_matches=15000):
+def get_matches(model, viewpointA, viewpointB, num_matches=15000):
     warp, certainty_warp = get_warps(
-        viewpointA, viewpointB
+        model, viewpointA, viewpointB
     )
     warp = warp.reshape(-1, 4)  # H*W x 4
     certainty_warp = certainty_warp.reshape(-1).clone()  # H*W
